@@ -12,7 +12,7 @@ BuildRequires:	boost-array-devel
 BuildRequires:	boost-bind-devel
 BuildRequires:	boost-call_traits-devel
 BuildRequires:	boost-date_time-devel
-BuildRequires:	boost-devel
+BuildRequires:	boost-devel >= 0.33.1
 BuildRequires:	boost-filesystem-devel
 BuildRequires:	boost-thread-devel
 BuildRequires:	libstdc++-devel
