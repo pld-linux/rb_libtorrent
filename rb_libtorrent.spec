@@ -16,11 +16,12 @@ BuildRequires:	boost-devel >= 0.33.1
 BuildRequires:	boost-filesystem-devel
 BuildRequires:	boost-thread-devel
 BuildRequires:	libstdc++-devel
+BuildRequires:	sed >= 4.0
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-%{name} is a C++ library that aims to be a good alternative to all the
+rb_libtorrent is a C++ library that aims to be a good alternative to all the
 other BitTorrent implementations around. It is a library and not a
 full featured client, although it comes with a working example client.
 
@@ -28,7 +29,7 @@ Its main goals are to be very efficient (in terms of CPU and memory
 usage) as well as being very easy to use both as a user and developer.
 
 %description -l pl.UTF-8
-%{name} jest biblioteką napisaną w C++ która aspiruje do bycia
+rb_libtorrent jest biblioteką napisaną w C++ która aspiruje do bycia
 dobrą alternatywą dla wszystkich innych implementacji BitTorrenta.
 Jest to biblioteka a nie pełnoprawny klient, jakkolwiek paczka
 zawiera działającego przykładowego klienta.
@@ -51,16 +52,16 @@ Requires:	boost-devel
 Requires:	openssl-devel
 
 %description    devel
-The %{name}-devel package contains libraries and header files for
-developing applications that use %{name}.
+The rb_libtorrent-devel package contains libraries and header files for
+developing applications that use rb_libtorrent.
 
 The various source and header files included in this package are
 licensed under the revised BSD, zlib/libpng, and Boost Public
 licenses.
 
 %description devel -l pl.UTF-8
-Paczka %{name}-devel zawiera biblioteki i nagłówki do rozwijania
-aplikacji używających %{name}.
+Paczka rb_libtorrent-devel zawiera biblioteki i nagłówki do rozwijania
+aplikacji używających rb_libtorrent.
 
 Różne pliki źródłowe i nagłówki dostarcozne z tym pakietem są
 licencjonowane pod zeminioną licencją BSD, zlib/libpng i Boost
@@ -75,17 +76,17 @@ Requires:	boost-static
 Requires:	openssl-static
 
 %description static
-Static %{name} library.
+Static rb_libtorrent library.
 
 %description static -l pl.UTF-8
-Statyczna biblioteka %{name}.
+Statyczna biblioteka rb_libtorrent.
 
 %prep
 %setup -q -n "libtorrent-%{version}"
 ## Some of the sources and docs are executable, which makes rpmlint against
 ## the resulting -debuginfo and -devel packages, respectively, quite angry. :]
-find src/ docs/ -type f -exec chmod a-x '{}' \;
-find . -type f -regex '.*\.[hc]pp' -exec chmod a-x '{}' \;
+find src docs -type f | xargs chmod a-x
+find -type f -regex '.*\.[hc]pp' | xargs chmod a-x
 ## The RST files are the sources used to create the final HTML files; and are
 ## not needed.
 rm -f docs/*.rst
@@ -96,7 +97,7 @@ sed -i -e 's/^Libs:.*$/Libs: -L${libdir} -ltorrent/' libtorrent.pc.in
 %build
 %configure \
 	--enable-examples \
-	 --with-zlib=system
+	--with-zlib=system
 
 %{__make}
 
@@ -107,15 +108,15 @@ rm -rf $RPM_BUILD_ROOT
 #make install DESTDIR=$RPM_BUILD_ROOT INSTALL="%{__install} -c -p"
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
-## Do the renaming due to the somewhat limited %%{_bindir} namespace.
+
+## Do the renaming due to the somewhat limited %{_bindir} namespace.
 rename client torrent_client $RPM_BUILD_ROOT%{_bindir}/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -p /sbin/ldconfig
-
-%postun -p /sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -126,11 +127,10 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %doc docs/
-%{_pkgconfigdir}/libtorrent.pc
-%dir %{_includedir}/libtorrent
-%{_includedir}/libtorrent/
 %{_libdir}/libtorrent.so
 %{_libdir}/*.la
+%{_pkgconfigdir}/libtorrent.pc
+%{_includedir}/libtorrent
 
 %files static
 %defattr(644,root,root,755)
