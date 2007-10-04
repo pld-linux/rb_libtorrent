@@ -2,7 +2,7 @@ Summary:	A C++ BitTorrent library
 Summary(pl.UTF-8):	Biblioteka BitTorrenta napisana w C++
 Name:		rb_libtorrent
 Version:	0.12
-Release:	0.1
+Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/libtorrent/libtorrent-%{version}.tar.gz
