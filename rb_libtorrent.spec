@@ -1,12 +1,12 @@
 Summary:	A C++ BitTorrent library
 Summary(pl.UTF-8):	Biblioteka BitTorrenta napisana w C++
 Name:		rb_libtorrent
-Version:	0.12
-Release:	2
+Version:	0.12.1
+Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/libtorrent/libtorrent-%{version}.tar.gz
-# Source0-md5:	a09a37e6fc74d152821c00c3cb15d248
+# Source0-md5:	1be3c3751673f751015b260836437f2e
 URL:		http://www.rasterbar.com/products/libtorrent/
 BuildRequires:	boost-array-devel
 BuildRequires:	boost-bind-devel
@@ -119,7 +119,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog COPYING README
 %attr(755,root,root) %{_bindir}/*torrent*
-%attr(755,root,root) %{_libdir}/libtorrent.so.*.*.*
+#%%attr(755,root,root) %{_libdir}/libtorrent.so.*.*.*
+%attr(755,root,root) %{_libdir}/libtorrent-0.12.1.so
 
 %files devel
 %defattr(644,root,root,755)
