@@ -1,13 +1,15 @@
 Summary:	A C++ BitTorrent library
 Summary(pl.UTF-8):	Biblioteka BitTorrenta napisana w C++
 Name:		rb_libtorrent
-Version:	0.12.1
+Version:	0.13
 Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/libtorrent/libtorrent-%{version}.tar.gz
-# Source0-md5:	1be3c3751673f751015b260836437f2e
+# Source0-md5:	571a91a98c7426321681dd9f767a87de
 URL:		http://www.rasterbar.com/products/libtorrent/
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	boost-array-devel
 BuildRequires:	boost-bind-devel
 BuildRequires:	boost-call_traits-devel
@@ -89,9 +91,12 @@ find -type f -regex '.*\.[hc]pp' | xargs chmod a-x
 rm -f docs/*.rst
 ## Fix the installed pkgconfig file: we don't need linkage that the
 ## libtorrent DSO already takes care of.
-sed -i -e 's/^Libs:.*$/Libs: -L${libdir} -ltorrent/' libtorrent.pc.in
+%{__sed} -i -e 's/^Libs:.*$/Libs: -L${libdir} -ltorrent/' libtorrent.pc.in
 
 %build
+%{__aclocal} -I m4
+%{__autoconf}
+%{__automake}
 %configure \
 	--enable-examples \
 	--with-zlib=system
@@ -120,7 +125,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog COPYING README
 %attr(755,root,root) %{_bindir}/*torrent*
 #%%attr(755,root,root) %{_libdir}/libtorrent.so.*.*.*
-%attr(755,root,root) %{_libdir}/libtorrent-0.12.1.so
+%attr(755,root,root) %{_libdir}/libtorrent-0.13.so
 
 %files devel
 %defattr(644,root,root,755)
