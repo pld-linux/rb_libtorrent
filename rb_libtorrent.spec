@@ -7,6 +7,7 @@ License:	BSD
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/libtorrent/libtorrent-%{version}.tar.gz
 # Source0-md5:	571a91a98c7426321681dd9f767a87de
+Patch0:		%{name}-boost_1_35.patch
 URL:		http://www.rasterbar.com/products/libtorrent/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -76,6 +77,7 @@ Statyczna biblioteka rb_libtorrent.
 
 %prep
 %setup -q -n "libtorrent-%{version}"
+%patch0 -p1
 ## Some of the sources and docs are executable, which makes rpmlint against
 ## the resulting -debuginfo and -devel packages, respectively, quite angry. :]
 find src docs -type f | xargs chmod a-x
